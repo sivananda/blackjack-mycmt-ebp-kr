@@ -113,4 +113,13 @@ public class PlayerTest {
     dealer.drawCardIntoHand(testUtility.getTwoOfHearts());
     assertThat(player.pushesWith(dealer)).isEqualTo(false);
   }
+
+  @Test
+  public void playerBets5ThenBets10TotalAmountBetIs15() {
+    Player player = new Player();
+    player.deposits(100);
+    player.bets(5);
+    player.bets(10);
+    assertThat(player.totalAmountBet()).isEqualTo(5+10);
+  }
 }

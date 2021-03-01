@@ -7,6 +7,7 @@ package com.jitterted.ebp.blackjack;
 public class Player extends  AbstractPlayer {
     private int balance = 0;
     private int bet = 0;
+    private int totalAmountBet = 0;
 
     public Player() {
         super();
@@ -19,6 +20,7 @@ public class Player extends  AbstractPlayer {
     public void bets(int betAmount) {
         bet = betAmount;
         balance -= betAmount;
+        totalAmountBet += betAmount;
     }
 
     public int balance() {
@@ -35,6 +37,10 @@ public class Player extends  AbstractPlayer {
 
     public void playerTies() {
         balance += bet * 1;
+    }
+
+    public int totalAmountBet() {
+        return totalAmountBet;
     }
 
     public boolean beats(Dealer dealer) {

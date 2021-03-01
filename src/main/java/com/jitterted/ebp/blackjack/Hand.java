@@ -8,7 +8,6 @@ import static org.fusesource.jansi.Ansi.ansi;
 
 public class Hand {
   private final List<Card> cards = new ArrayList<>();
-  private String temp;
 
   public void add(Card card) {
     cards.add(card);
