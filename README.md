@@ -1,4 +1,3 @@
-hi
 # Make Your Blackjack Code More Testable
 
 This is the starter code base for the "Make Code More Testable" class.
