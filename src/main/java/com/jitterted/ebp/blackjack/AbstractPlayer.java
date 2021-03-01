@@ -1,20 +1,22 @@
 package com.jitterted.ebp.blackjack;
 
-public abstract class BasePlayer {
+public abstract class AbstractPlayer {
     private Hand hand;
-    private int playerBalance = 0;
-    private int playerBet = 0;
 
-    public BasePlayer() {
+    public AbstractPlayer() {
         this.hand = new Hand();
     }
 
-    public boolean beats(BasePlayer dealer) {
+    public boolean beats(AbstractPlayer dealer) {
         return this.hand.beats(dealer.hand);
     }
 
-    public boolean pushesWith(BasePlayer dealer) {
-        return this.hand.pushesWith(dealer.hand);
+    protected void drawCardIntoHand(Card card) {
+        getHand().add(card);
+    }
+
+    public boolean isBusted() {
+        return getHand().isBusted();
     }
 
     public void displayHand() {
@@ -22,6 +24,10 @@ public abstract class BasePlayer {
         System.out.println(getPlayerRole() +" has: ");
         hand.displayHand();
         System.out.println(" (" + hand.value() + ")");
+    }
+
+    protected Hand getHand() {
+        return this.hand;
     }
 
     protected abstract PlayerRole getPlayerRole();

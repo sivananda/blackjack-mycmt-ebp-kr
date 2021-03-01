@@ -4,58 +4,113 @@ import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.*;
 
-public class GameBettingOutcomeTest {
+public class PlayerTest {
 
   // Player Ties = get Bet back
   // Player BJ = Bet + Bet + 50% Bet
 
+  private TestUtility testUtility = new TestUtility();
+
   @Test
   public void playerWith20Bets10WhenWinsBalanceIs30() throws Exception {
-    Player player = new Player(20);
-    player.playerBets(10);
+    Player player = new Player();
+    player.deposits(20);
+    player.bets(10);
 
     player.playerWins();
 
-    assertThat(player.playerBalance())
+    assertThat(player.balance())
         .isEqualTo(30);
   }
 
   @Test
   public void playerWith80Bets70WhenTiesBalanceIs80() throws Exception {
-    Player player = new Player(80);
-    player.playerBets(70);
+    Player player = new Player();
+    player.deposits(80);
+    player.bets(70);
 
     player.playerTies();
 
-    assertThat(player.playerBalance())
+    assertThat(player.balance())
         .isEqualTo(80);
   }
 
   @Test
   public void playerWith35Bets30WhenLosesBalanceIs5() throws Exception {
-    Player player = new Player(35);
-    player.playerBets(30);
+    Player player = new Player();
+    player.deposits(35);
+    player.bets(30);
     player.playerLoses();
 
-    assertThat(player.playerBalance())
+    assertThat(player.balance())
         .isEqualTo(5);
   }
 
   @Test
   public void playerWith40Bets15BalanceIs25() throws Exception {
-    Player player = new Player(40);
+    Player player = new Player();
+    player.deposits(40);
+    player.bets(15);
 
-    player.playerBets(15);
-
-    assertThat(player.playerBalance())
+    assertThat(player.balance())
         .isEqualTo(25);
   }
 
   @Test
   public void playerDeposits18DollarsBalanceIs18Dollars() throws Exception {
-    Player player = new Player(18);
-
-    assertThat(player.playerBalance())
+    Player player = new Player();
+    player.deposits(18);
+    assertThat(player.balance())
         .isEqualTo(18);
+  }
+
+  @Test
+  public void testPlayerRole() {
+    Player player = new Player();
+    assertThat(player.getPlayerRole()).isEqualTo(PlayerRole.PLAYER);
+  }
+
+  @Test
+  public void playerBeatsDealer() {
+    Player player = new Player();
+    Dealer dealer = new Dealer();
+    player.drawCardIntoHand(testUtility.getAceOfSpades());
+    player.drawCardIntoHand(testUtility.getTwoOfHearts());
+    dealer.drawCardIntoHand(testUtility.getFiveOfHearts());
+    dealer.drawCardIntoHand(testUtility.getFiveOfSpades());
+    assertThat(player.beats(dealer)).isEqualTo(true);
+  }
+
+  @Test
+  public void dealerBeatsPlayer() {
+    Player player = new Player();
+    Dealer dealer = new Dealer();
+    player.drawCardIntoHand(testUtility.getFiveOfHearts());
+    player.drawCardIntoHand(testUtility.getFiveOfSpades());
+    dealer.drawCardIntoHand(testUtility.getAceOfHearts());
+    dealer.drawCardIntoHand(testUtility.getTwoOfHearts());
+    assertThat(player.beats(dealer)).isEqualTo(false);
+  }
+
+  @Test
+  public void playerPushesWithDealer() {
+    Player player = new Player();
+    Dealer dealer = new Dealer();
+    player.drawCardIntoHand(testUtility.getAceOfHearts());
+    player.drawCardIntoHand(testUtility.getFiveOfHearts());
+    dealer.drawCardIntoHand(testUtility.getAceOfSpades());
+    dealer.drawCardIntoHand(testUtility.getFiveOfSpades());
+    assertThat(player.pushesWith(dealer)).isEqualTo(true);
+  }
+
+  @Test
+  public void playerDoesNotPushesWithDealer() {
+    Player player = new Player();
+    Dealer dealer = new Dealer();
+    player.drawCardIntoHand(testUtility.getAceOfHearts());
+    player.drawCardIntoHand(testUtility.getFiveOfHearts());
+    dealer.drawCardIntoHand(testUtility.getFiveOfSpades());
+    dealer.drawCardIntoHand(testUtility.getTwoOfHearts());
+    assertThat(player.pushesWith(dealer)).isEqualTo(false);
   }
 }
