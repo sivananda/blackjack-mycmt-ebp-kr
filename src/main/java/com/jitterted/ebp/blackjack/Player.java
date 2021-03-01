@@ -20,7 +20,14 @@ public class Player extends  AbstractPlayer {
     public void bets(int betAmount) {
         bet = betAmount;
         balance -= betAmount;
+        addBonusIfAmountBetIsMoreThan100(betAmount);
         totalAmountBet += betAmount;
+    }
+
+    private void addBonusIfAmountBetIsMoreThan100(int betAmount) {
+        if(betAmount > 100) {
+            balance += 10;
+        }
     }
 
     public int balance() {

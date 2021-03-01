@@ -122,4 +122,13 @@ public class PlayerTest {
     player.bets(10);
     assertThat(player.totalAmountBet()).isEqualTo(5+10);
   }
+
+  @Test
+  public void playerDeposits200Bets5ThenBets110TotalBalanceIs95() {
+    Player player = new Player();
+    player.deposits(200);
+    player.bets(5);
+    player.bets(110);
+    assertThat(player.balance()).isEqualTo(200 -  5 - 110 + 10);
+  }
 }
